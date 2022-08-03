@@ -9,11 +9,13 @@ public class Solution {
 	public static void main(String[] args) throws IOException {
 
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		
 		int T = Integer.parseInt(br.readLine());
 
 		for (int tc = 1; tc <= T; tc++) {
 
 			StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+			
 			int H = Integer.parseInt(st.nextToken());
 			int W = Integer.parseInt(st.nextToken());
 			char map[][] = new char[H][W];
@@ -22,6 +24,7 @@ public class Solution {
 
 			for (int i = 0; i < H; i++) {
 				map[i] = br.readLine().toCharArray();
+				
 				for (int j = 0; j < W; j++) {
 					if (map[i][j] == '^' || map[i][j] == 'v' || map[i][j] == '<' || map[i][j] == '>') {
 						x = i;
@@ -51,6 +54,7 @@ public class Solution {
 
 			for (char input : inputs) {
 				k = 1;
+				
 				switch (input) {
 				case 'U':
 					map[x][y] = '^';
