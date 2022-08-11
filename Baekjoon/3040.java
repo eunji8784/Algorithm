@@ -2,7 +2,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-// 백설공주와 일곱 난쟁이
+/*
+백설공주와 일곱 난쟁이
+조합
+*/
 
 public class Main {
 
