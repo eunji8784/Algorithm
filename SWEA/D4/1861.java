@@ -60,7 +60,7 @@ public class Solution {
 							bool = true;
 						} else {
 							idx++;
-							bool = false;
+							if (idx == 4) bool = false;
 						}
 						
 					}
