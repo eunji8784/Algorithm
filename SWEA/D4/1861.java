@@ -57,7 +57,6 @@ public class Solution {
 							startY = y;
 							count++;
 							idx = 0;
-							bool = true;
 						} else {
 							idx++;
 							if (idx == 4) bool = false;
