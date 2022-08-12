@@ -22,6 +22,7 @@ public class Main {
 		int N = Integer.parseInt(st.nextToken());
 		M = Integer.parseInt(st.nextToken());
 		int[][] map = new int[N + 1][N + 1];
+		selected = new int[M][2];
 
 		for (int i = 1; i <= N; i++) {
 			st = new StringTokenizer(br.readLine(), " ");
@@ -34,8 +35,6 @@ public class Main {
 				}
 			}
 		}
-		
-		selected = new int[M][2];
 		
 		chickenCom(0,0);
 		
