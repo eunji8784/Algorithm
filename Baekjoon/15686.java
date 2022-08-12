@@ -45,7 +45,7 @@ public class Main {
 	private static void chickenCom(int idx, int count) {
 
 		if (count == M) {
-			distance = getChickenDistance(selected, homes);
+			distance = getChickenDistance(selected);
 			
 			if (distance < minDistance) {
 				minDistance = distance;
@@ -61,7 +61,7 @@ public class Main {
 
 	}
 
-	private static int getChickenDistance(int[][] selected, ArrayList<int[]> homes) {
+	private static int getChickenDistance(int[][] selected) {
 
 		distance = 0;
 		int res;
