@@ -11,7 +11,7 @@ public class Main {
 	static ArrayList<int[]> chickens = new ArrayList<int[]>();
 	static int[][] selected;
 	static int distance;
-	static int minDistance = 100000;
+	static int minDistance = Integer.MAX_VALUE;
 
 	public static void main(String[] args) throws IOException {
 
@@ -68,7 +68,7 @@ public class Main {
 		int res;
 
 		for (int[] h : homes) {
-			int min = 100;
+			int min = Integer.MAX_VALUE;
 			for (int[] s : selected) {
 				res = Math.abs(h[0] - s[0]) + Math.abs(h[1] - s[1]);
 				if (res < min) {
