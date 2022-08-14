@@ -4,6 +4,8 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
+// 치킨 배달
+
 public class Main {
 
 	static int M;
