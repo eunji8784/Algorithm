@@ -11,36 +11,22 @@ public class Main {
 		int N = Integer.parseInt(br.readLine());
 		int result = 0;
 
-		while (true) {
+		while (N > 0) {
 
 			if (N % 5 == 0) {
-				
+
 				result += N / 5;
 				break;
-				
-			} else {
-				
-				if (N - 3 > 0) {
-					
-					N -= 3;
-					result++;
-					
-				} else if (N - 3 == 0){
-					
-					result++;
-					break;
-					
-				} else {
-					
-					result = -1;
-					break;
-					
-				}
-				
+
 			}
 
+			N -= 3;
+			result++;
+
 		}
-		
+
+		if (N < 0) result = -1;
+
 		System.out.println(result);
 
 	}
