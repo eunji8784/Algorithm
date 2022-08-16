@@ -14,27 +14,29 @@ public class Main {
 		while (true) {
 
 			if (N % 5 == 0) {
-      
+				
 				result += N / 5;
 				break;
-        
+				
 			} else {
-      
-				if (N - 3 < 0) {
-        
-					result = -1;
-					break;
-          
-				} else {
-        
+				
+				if (N - 3 > 0) {
+					
 					N -= 3;
 					result++;
-
-					if (N == 0)
-						break;
-            
+					
+				} else if (N - 3 == 0){
+					
+					result++;
+					break;
+					
+				} else {
+					
+					result = -1;
+					break;
+					
 				}
-        
+				
 			}
 
 		}
