@@ -26,9 +26,9 @@ public class Main {
 	private static void division(int x, int y, int size) {
 		
 		if (x == r && y == c) {
-            System.out.println(num);
-            return;
-        }
+		    System.out.println(num);
+		    return;
+		}
 		
 		if (x <= r && r < (x + size) && y <= c && c < (y + size)) {
 			int newSize = size / 2;
