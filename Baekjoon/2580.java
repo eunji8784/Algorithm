@@ -14,7 +14,7 @@ public class Main {
 	static boolean[][] vst3 = new boolean[9][10];
 
 //	vst3[i][j]
-//  박스 번호 i
+//  	박스 번호 i
 //	0 1 2
 //	3 4 5
 //	7 8 9
@@ -28,11 +28,6 @@ public class Main {
 			StringTokenizer st = new StringTokenizer(br.readLine(), " ");
 			for (int j = 0; j < 9; j++) {
 				map[i][j] = Integer.parseInt(st.nextToken());
-			}
-		}
-
-		for (int i = 0; i < 9; i++) {
-			for (int j = 0; j < 9; j++) {
 				if (map[i][j] != 0) {
 					vst1[i][map[i][j]] = true;
 					vst2[j][map[i][j]] = true;
@@ -47,7 +42,7 @@ public class Main {
 
 	private static void sudoku(int x, int y) {
 
-		// 마지막 행까지 모두 돌았으면 맵을 출력하고 종료한다.
+		// 마지막 행까지 모두 돌았으므로 맵을 출력한다.
 		if (x == 9) {
 			StringBuilder sb = new StringBuilder();
 			for (int i = 0; i < 9; i++) {
@@ -68,7 +63,7 @@ public class Main {
 		}
 
 		/*
-		 * 현재 값이 0이면 1~9까지 숫자 중 현재 위치에 들어갈 수 있는 수를 각각 저장하고 다음 열의 스도쿠 함수를 실행시킨 후 다시 0으로 바꾼다.
+		 * 현재 값이 0이면 1~9까지 숫자 중 현재 위치에 들어갈 수 있는 수를 저장하고 다음 열의 스도쿠 함수를 실행시킨 후 다시 0으로 바꾼다.
 		 */
 		for (int i = 1; i <= 9; i++) {
 			if (vst1[x][i] || vst2[y][i] || vst3[box(x, y)][i]) {
