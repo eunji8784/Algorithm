@@ -53,7 +53,6 @@ public class Main {
 		Queue<Location> que = new LinkedList<>();
 		que.add(location);
 		vst[location.x][location.y] = true;
-		map[location.x][location.y] = 2;
 
 		while (!que.isEmpty()) {
 			Location current = que.poll();
@@ -65,7 +64,6 @@ public class Main {
 				int ny = y + dy[i];
 				if (0 <= nx && nx < N && 0 <= ny && ny < N && !vst[nx][ny] && map[nx][ny] == 1) {
 					vst[nx][ny] = true;
-					map[nx][ny] = 2;
 					que.add(new Location(nx, ny));
 				}
 			}
