@@ -9,13 +9,13 @@ public class Solution {
 
 	static int[] dx = { -1, 1, 0, 0 };
 	static int[] dy = { 0, 0, -1, 1 };
-	static int N, M;
-	static char[][] map;
-	static Queue<Location> devilQ, suyeonQ;
-	static int count;
+	static int N, M, time;
 	static boolean success;
+	static char[][] map;
+	static Queue<Location> devilQ;
+	static Queue<Location> suyeonQ;
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws NumberFormatException, IOException {
 
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		int T = Integer.parseInt(br.readLine());
@@ -28,8 +28,7 @@ public class Solution {
 			map = new char[N][M];
 			devilQ = new LinkedList<>();
 			suyeonQ = new LinkedList<>();
-			count = 0;
-			success = false;
+
 			for (int i = 0; i < N; i++) {
 				String str = br.readLine();
 				map[i] = str.toCharArray();
@@ -44,80 +43,83 @@ public class Solution {
 				}
 			}
 
-			bfs();
-
+			time = 0;
+			success = false;
+			solve();
+			
+			StringBuilder sb = new StringBuilder();
 			if (success) {
-				System.out.printf("#%d %d\n", tc, count);
+				sb.append("#").append(tc).append(" ").append(time).append("\n");
+				System.out.print(sb.toString());
 			} else {
-				System.out.println("#" + tc + " " + "GAME OVER");
+				sb.append("#").append(tc).append(" ").append("GAME OVER").append("\n");
+				System.out.print(sb.toString());
 			}
 
 		}
 
 	}
 
-	private static void bfs() {
-
-		int len = 0;
+	private static void solve() {
 
 		while (true) {
-			
-			len = devilQ.size();
-			for (int l = 0; l < len; l++) {
-				Location devilLoc = devilQ.poll();
-
+			int length = devilQ.size();
+			for (int l = 0; l < length; l++) {
+				Location current = devilQ.poll();
+				int x = current.x;
+				int y = current.y;
 				for (int i = 0; i < 4; i++) {
-					int nx = devilLoc.x + dx[i];
-					int ny = devilLoc.y + dy[i];
-
-					if (0 <= nx && nx < N && 0 <= ny && ny < M) {
-						if (map[nx][ny] == '.' || map[nx][ny] == 'S') {
-							map[nx][ny] = '*';
-							devilQ.add(new Location(nx, ny));
-						}
+					int nx = x + dx[i];
+					int ny = y + dy[i];
+					if (isRange(nx, ny) && (map[nx][ny] == '.' || map[nx][ny] == 'S')) {
+						map[nx][ny] = '*';
+						devilQ.add(new Location(nx, ny));
 					}
 				}
-
 			}
 
-			len = suyeonQ.size();
-			for (int l = 0; l < len; l++) {
-				Location suyeonLoc = suyeonQ.poll();
-
-				if (map[suyeonLoc.x][suyeonLoc.y] == 'D') {
+			length = suyeonQ.size();
+			for (int l = 0; l < length; l++) {
+				Location current = suyeonQ.poll();
+				int x = current.x;
+				int y = current.y;
+				if (map[x][y] == 'D') {
 					success = true;
 					break;
 				}
-
 				for (int i = 0; i < 4; i++) {
-					int nx = suyeonLoc.x + dx[i];
-					int ny = suyeonLoc.y + dy[i];
-
-					if (0 <= nx && nx < N && 0 <= ny && ny < M) {
-						if (map[nx][ny] == '.' || map[nx][ny] == 'D') {
-							if (map[nx][ny] != 'D') {
-								map[nx][ny] = 'S';
-							}
-							suyeonQ.add(new Location(nx, ny));
+					int nx = x + dx[i];
+					int ny = y + dy[i];
+					if (isRange(nx, ny) && (map[nx][ny] == '.' || map[nx][ny] == 'D')) {
+						if (map[nx][ny] != 'D') {
+							map[nx][ny] = 'S';
 						}
+						suyeonQ.add(new Location(nx, ny));
 					}
 				}
-				
 			}
 
 			if (suyeonQ.isEmpty() || success) {
-				break;
+				return;
 			} else {
-				count++;
+				time++;
 			}
 		}
+
+	}
+
+	private static boolean isRange(int nx, int ny) {
+
+		if (0 <= nx && nx < N && 0 <= ny && ny < M) {
+			return true;
+		}
+		return false;
 
 	}
 
 	static class Location {
 
-		int x;
-		int y;
+		int x, y;
 
 		public Location(int x, int y) {
 			this.x = x;
