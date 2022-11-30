@@ -1,111 +1,80 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class Solution {
-	
-	static int N, ans;
-	static int[][] adj;
-	static int[] voters;
+
+	static int[] dx = { -1, 1, 0, 0 };
+	static int[] dy = { 0, 0, -1, 1 };
+	static int N, Ans;
+	static int[][] map, memo;
 
 	public static void main(String[] args) throws NumberFormatException, IOException {
-		
+
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		int T = Integer.parseInt(br.readLine());
-		
+
 		for (int tc = 1; tc <= T; tc++) {
-			
+
 			N = Integer.parseInt(br.readLine());
-			ans = Integer.MAX_VALUE;
-			adj = new int[N + 1][N + 1];
-			voters = new int[N + 1];
-			StringTokenizer st;
-			for (int i = 1; i < N + 1; i++) {
-				st = new StringTokenizer(br.readLine(), " ");
-				for (int j = 1; j < N + 1; j++) {
-					adj[i][j] = Integer.parseInt(st.nextToken());
+			Ans = Integer.MAX_VALUE;
+			map = new int[N][N];
+			memo = new int[N][N];
+			for (int i = 0; i < N; i++) {
+				StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+				for (int j = 0; j < N; j++) {
+					map[i][j] = Integer.parseInt(st.nextToken());
 				}
 			}
-			st = new StringTokenizer(br.readLine(), " ");
-			for (int i = 1; i < N + 1; i++) {
-				voters[i] = Integer.parseInt(st.nextToken());
-			}
-			
-			powerSet(1,  new boolean[N + 1]);
-			
-			System.out.printf("#%d %d\n", tc, ans);
-			
+
+			boolean[][] v = new boolean[N][N];
+			v[0][0] = true;
+			dfs(0, 0, 0, v);
+
+			System.out.printf("#%d %d\n", tc, Ans);
+
 		}
-		
-	}
-	
-	private static void powerSet(int idx, boolean[] sel) {
-		
-		if (idx == N + 1) {
-			
-			ArrayList<Integer> areaA = new ArrayList<>();
-			ArrayList<Integer> areaB = new ArrayList<>();
-			
-			for (int i = 1; i < sel.length; i++) {
-				if (sel[i]) {
-					areaA.add(i);
-				} else {
-					areaB.add(i);
-				}
-			}
-			
-			if (areaA.size() == 0 || areaB.size() == 0) {
-				return;
-			}
-			
-//			System.out.println("areaA = " + areaA);
-//			System.out.println("areaB = " + areaB);
-//			System.out.println("----------------------");
-			
-			boolean[] v = new boolean[N + 1];
-			dfs(areaA.get(0), areaA, v);
-			dfs(areaB.get(0), areaB, v);
-			
-			boolean flag = true;
-			for (int i = 1; i < v.length; i++) {
-				if (!v[i]) {
-					flag = false;
-				}
-			}
-			
-			if (flag) {
-				int sumA = 0, sumB = 0;
-				for (int i = 0; i < areaA.size(); i++) {
-					sumA += voters[areaA.get(i)];
-				}
-				for (int i = 0; i < areaB.size(); i++) {
-					sumB += voters[areaB.get(i)];
-				}
-				ans = Math.min(ans, Math.abs(sumA - sumB));
-			}
-			
-			return;
-		}
-		
-		sel[idx] = true;
-		powerSet(idx + 1, sel);
-		sel[idx] = false;
-		powerSet(idx + 1, sel);
-		
+
 	}
 
-	private static void dfs(Integer idx, ArrayList<Integer> area, boolean[] v) {
-		
-		v[idx] = true;
-		for (int i = 0; i < area.size(); i++) {
-			if (adj[idx][area.get(i)] == 1 && !v[area.get(i)]) {
-				dfs(area.get(i), area, v);
+	private static void dfs(int x, int y, int fuel, boolean[][] v) {
+
+		if (fuel >= Ans) {
+			return;
+		}
+
+		if (x == N - 1 && y == N - 1) {
+			Ans = Math.min(Ans, fuel);
+			return;
+		}
+
+		if (memo[x][y] == 0) {
+			memo[x][y] = fuel;
+		} else {
+			if (memo[x][y] > fuel) {
+				memo[x][y] = fuel;
+			} else {
+				return;
 			}
 		}
-		
+
+		for (int i = 0; i < 4; i++) {
+			int nx = x + dx[i];
+			int ny = y + dy[i];
+			if (0 <= nx && nx < N && 0 <= ny && ny < N && !v[nx][ny]) {
+				v[nx][ny] = true;
+				int val = 0;
+				if (map[nx][ny] == map[x][y]) {
+					val = 1;
+				} else if (map[nx][ny] > map[x][y]) {
+					val = (map[nx][ny] - map[x][y]) * 2;
+				}
+				dfs(nx, ny, fuel + val, v);
+				v[nx][ny] = false;
+			}
+		}
+
 	}
 
 }
