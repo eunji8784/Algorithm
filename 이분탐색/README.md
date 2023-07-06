@@ -10,7 +10,7 @@
 <img width="223" alt="스크린샷 2023-07-06 오후 9 01 44" src="https://github.com/eunji8784/Algorithm/assets/70746467/f2250314-c583-4d3c-b384-d8288a055d46">
 
 - 이 때, 최악의 경우인 마지막 탐색 범위가 1인 경우가 있다. K번 반복했을 때 쪼개진 크기가 1이라고 가정한다면, 결국 K만큼 반복한다고 했으니 K에 대해 풀어보면 다음과 같다.
-  <img width="594" alt="스크린샷 2023-07-06 오후 9 03 53" src="https://github.com/eunji8784/Algorithm/assets/70746467/3c20bc71-c97b-4f58-9124-15b73c44abfc">
+<img width="594" alt="스크린샷 2023-07-06 오후 9 03 53" src="https://github.com/eunji8784/Algorithm/assets/70746467/3c20bc71-c97b-4f58-9124-15b73c44abfc">
 
 - 즉, N개의 리스트에서 어떤 수를 찾는 과정에 대한 시간 복잡도는 ```O(logN)```이다.
 
