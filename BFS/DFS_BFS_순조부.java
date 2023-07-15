@@ -9,7 +9,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
-public class Class {
+public class DFS_BFS_순조부 {
 
 	static int n = 5;
 	static int r = 3;
