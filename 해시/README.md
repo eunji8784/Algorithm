@@ -1,4 +1,4 @@
-# 해시맵 (HashMap)
+# 📌 해시맵 (HashMap)
 ```
 - 해시(Hash): 임의의 길이의 데이터를 고정된 길이의 데이터로 매핑하는 것
 - 맵(Map): 키(Key)와 값(Value) 두 쌍으로 데이터를 보관하는 자료구조
@@ -226,7 +226,6 @@ map includes reakwon? true
 
 [📚 출처: https://reakwon.tistory.com/151]
 
----
 
 ## 💡 Map & HashMap의 차이점
 ```java
@@ -237,3 +236,159 @@ Map<String,Object> map = new HashMap<String,Object>();
 - 기능은 똑같지만 코드의 유지보수성에 차이가 있다.
 - java에서는 HashMap 외에도 다양한 종류의 Map이 존재하고, 모두 Map 인터페이스를 구현하는 구조로 정의되어 있다. 따라서 두 번째 방식으로 HashMap을 선언하여 사용히면 나중에 HashMap이 아닌 다른 종류의 Map을 사용해야 하는 상황에서도 많은 코드 수정 없이 손 쉽게 이를 반영할 수 있다.
 - 첫 번째 방식에서는 해당 map Object에서는 오직 HashMap에 대한 Object만을 담을 수 있기 때문에 유지보수성이 떨어진다.
+
+---
+
+# 📌 해시셋 (HashSet)
+- HashSet은 Set 인터페이스의 구현클래스이다.
+- Set은 __객체를 중복해서 저장할 수 없고__ 하나의 null 값만 저장할 수 있다.
+- Set 인터페이스를 구현한 클래스로는 HashSet과 TreeSet이 있는데 __HashSet의 경우 정렬을 해주지 않고__ __TreeSet의 경우 자동으로 정렬__ 해준다는 차이점이 있다.
+- Set은 주머니 형태이다. 비선형 구조이기에 __저장 순서가 없으며__ 그렇기에 __인덱스도 존재하지 않는다.__
+- 그렇기에 값을 추가하거나 삭제할 때 내가 추가 혹은 삭제하고자 하는 값이 Set 내부에 있는지 검색한 뒤 추가나 삭제를 해야한다.
+- 속도가 List 구조에 비해 느리다.
+
+## 해시셋 사용법
+### 1. HashSet 선언 
+```java
+Set<Integer> set1 = new HashSet<Integer>(); // HashSet 생성
+Set<Integer> set2 = new HashSet<>(); // new에서 타입 파라미터 생략 가능
+Set<Integer> set3 = new HashSet<Integer>(set1); // set1의 모든 값을 가진 HashSet 생성
+Set<Integer> set4 = new HashSet<Integer>(10); // 초기 용량 지정 
+Set<Integer> set6 = new HashSet<Integer>(Arrays.asList(1,2,3)); //초기값 지정
+```
+
+### 2. HashSet 값 추가, 삭제 - add(), remove(), clear()
+```java
+HashSet<Integer> set = new HashSet<Integer>(); // HashSet 생성
+set.add(1); //값 추가
+set.remove(1); // 값 1 제거 
+set.clear(); // 모든 값 제거
+```
+
+
+### 3. HashSet 크기 - size()
+```java
+HashSet<Integer> set = new HashSet<Integer>(Arrays.asList(1,2,3)); // HashSet 생성
+System.out.println(set.size());//set 크기 : 3
+```
+
+
+### 4. HashSet 비어있는지 확인 - isEmpty()
+```java
+HashSet<Integer> set = new HashSet<Integer>(Arrays.asList(1,2,3));
+System.out.println(map.isEmpty());// false
+```
+
+### 5. HashSet 값 검색 - contains()
+```java
+HashSet<Integer> set = new HashSet<Integer>(Arrays.asList(1,2,3));//HashSet생성
+System.out.println(set.contains(1)); //set내부에 값 1이 있는지 check : true
+```
+
+
+### 6. HashSet 값 출력 - iterator()
+- Set 컬렉션을 그냥 출력하게 되면 대괄호로 묶어서 set의 전체값이 출력된다.
+- Set에는 인덱스로 객체를 가져오는 get(index)메소드가 없다.
+- 대신 전체 객체를 대상으로 한번씩 반복해서 가져오는 반복자 Iterator를 제공한다.
+```java
+HashSet<Integer> set = new HashSet<Integer>(Arrays.asList(1,2,3));//HashSet생성
+System.out.println(set); //전체출력 [1,2,3]
+		
+Iterator iter = set.iterator();	// Iterator 사용
+while(iter.hasNext()) { // 값이 있으면 true 없으면 false
+    System.out.println(iter.next());
+}
+```
+
+
+### 7. HashSet -> List, List -> HashSet
+```java
+List<String> list = new ArrayList<>();
+Set<String> set = new HashSet<>(list); // list->set
+List<String> list = new ArrayList<>(set);// set->list
+```
+
+
+[출처: https://velog.io/@kimmjieun/Java-HashSet-%EC%82%AC%EC%9A%A9%EB%B2%95]
+
+
+# 📌 LinkedHashSet
+- HashSet과 동일한 구조를 가지지만 HashSet은 순서를 관리하지 않아 값을 출력할 때마다 다른 순서대로 출력된다.
+- LinkedHashSet은 __순서를 유지하며__ 삽입된 순서대로 반복한다.
+- HashSet과 동일한 특징들이 있는데 마찬가지로 __중복 값을 허용하지 않는다.__
+
+## LinkedHashSet 사용법
+### 1. LinkedHashSet 선언
+```java
+LinkedHashSet hs = new LinkedHashSet(); // 타입 설정x Object 입력
+LinkedHashSet<LinkedHashSetDemo> demo = new LinkedHashSet<LinkedHashSetDemo>(); // 클래스로 타입 설정
+LinkedHashSet<Integer> i = new LinkedHashSet<Integer>(); // Integer 타입 선언
+LinkedHashSet<Integer> i2 = new LinkedHashSet(); // 뒷부분 타입 선언 생략 가능
+LinkedHashSet<Integer> i3 = new LinkedHashSet<Integer>(10); // 크기 10으로 선언
+LinkedHashSet<Integer> i4 = new LinkedHashSet<Integer>(Arrays.asList(1, 2, 3, 4)); // 선언과 동시에 초기 값 설정
+		
+LinkedHashSet<String> str = new LinkedHashSet<String>(); // String 타입 선언
+LinkedHashSet<Character> ch = new LinkedHashSet<Character>(); // Char 타입 선언
+```
+
+### 2. LinkedHashSet 값 추가 - add()
+```java
+LinkedHashSet<String> str = new LinkedHashSet<String>(); // LinkedHashSet 선언
+		
+// 값 추가
+str.add("Hello1");
+str.add("World2");
+str.add("Hello3");
+str.add("World4");
+str.add("World2");
+```
+- "World2"를 추가하지만 중복값이라 결과를 조회할 때는 제외하고 출력
+
+### 3. LinkedHashSet 값 삭제 - remove(), clear()
+```java
+LinkedHashSet<String> str = new LinkedHashSet<String>(); // LinkedHashSet 선언
+		
+// 값 추가
+str.add("Hello1");
+str.add("World2");
+str.add("Hello3");
+str.add("World4");
+		
+System.out.println(str); // 결과 출력		
+		
+str.remove("World2"); // World2 값 삭제
+System.out.println(str); // 결과 출력	
+		
+str.clear(); // 모든 값 삭제
+System.out.println(str); // 결과 출력	
+```
+
+### 4. LinkedHashSet 크기 - size()
+```java
+LinkedHashSet<String> str = new LinkedHashSet<String>(); // LinkedHashSet 선언
+		
+// 값 추가
+str.add("Hello1");
+str.add("World2");
+		
+System.out.println("LinkedHashSet의 크기는? " + str.size()); // 결과 출력	
+```
+
+### 5. LinkedHashSet 값 출력 - iterator()
+```java
+LinkedHashSet<String> str = new LinkedHashSet<String>(); // LinkedHashSet 선언
+		
+// 값 추가
+str.add("Hello1");
+str.add("World2");
+str.add("Hello3");
+str.add("World4");
+		
+/* Iterator를 사용 HashSet 배열 출력 */
+Iterator iter = str.iterator();
+while(iter.hasNext())
+	System.out.print(iter.next() + " ");
+```
+
+
+[출처: https://st-lab.tistory.com/258, https://crazykim2.tistory.com/582]
