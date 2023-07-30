@@ -26,6 +26,7 @@ public class Main {
 		}
 		
 		StringBuilder sb = new StringBuilder();
+		
 		for (String studNum : set) {
 			if (cnt < K) {
 				sb.append(studNum).append("\n");
