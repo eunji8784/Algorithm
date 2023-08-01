@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Mainㅠ {
+public class Main {
 
 	public static void main(String[] args) throws NumberFormatException, IOException {
 
@@ -18,11 +18,7 @@ public class Mainㅠ {
 
 		for (int i = 0; i < N; i++) {
 			Long num = Long.parseLong(br.readLine());
-			if (map.containsKey(num)) {
-				map.put(num, map.get(num) + 1);
-			} else {
-				map.put(num, 1);
-			}
+			map.put(num, map.getOrDefault(num, 0) + 1);
 		}
 
 		List<Map.Entry<Long, Integer>> lst = new ArrayList<>(map.entrySet());
@@ -38,7 +34,7 @@ public class Mainㅠ {
 				return o1.getKey().compareTo(o2.getKey());
 			}
 		});
-		
+
 		System.out.println(lst.get(0).getKey());
 		br.close();
 
