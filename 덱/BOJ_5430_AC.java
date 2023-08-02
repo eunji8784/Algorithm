@@ -27,7 +27,7 @@ public class Main {
 
 			StringBuilder sb = new StringBuilder();
 			boolean isError = false;
-			boolean isReversed = false; // 덱을 역순으로 뒤집어야 되는지를 나타내는 플래그 
+			boolean isReversed = false; // 덱이 역순으로 뒤집힌 상태인지를 나타내는 플래그 
 			
 			for (char func : funcs) {
 
@@ -51,11 +51,11 @@ public class Main {
 
 			if (!isError) {
 				sb.append("[");
-                while(!dq.isEmpty()) {
-                    sb.append(isReversed ? dq.pollLast() : dq.pollFirst());
-                    if (!dq.isEmpty()) sb.append(",");
-                }
-                sb.append("]");
+		                while(!dq.isEmpty()) {
+		                    sb.append(isReversed ? dq.pollLast() : dq.pollFirst());
+		                    if (!dq.isEmpty()) sb.append(",");
+		                }
+		                sb.append("]");
 			}
 
 			System.out.println(sb.toString());
