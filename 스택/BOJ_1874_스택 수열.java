@@ -17,29 +17,22 @@ public class Main {
 		int num = 1;
 		StringBuilder sb = new StringBuilder();
 
-		while (true) {
+		while (num <= n) {
 
-			if (num > n) {
-				break;
-			}
-
-			stack.push(num);
+			stack.push(num++);
 			sb.append("+\n");
-			num++;
 
-			while (true) {
+			while (!stack.isEmpty()) {
 
 				if (arr[idx] == stack.peek()) {
 					stack.pop();
 					sb.append("-\n");
 					idx++;
-					if (stack.empty()) {
-						break;
-					}
 				} else {
 					if (arr[idx] < stack.peek()) {
 						System.out.println("NO");
 						System.exit(0);
+						br.close();
 					}
 					break;
 				}
