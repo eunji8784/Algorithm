@@ -32,7 +32,6 @@ public class Main {
 					if (arr[idx] < stack.peek()) {
 						System.out.println("NO");
 						System.exit(0);
-						br.close();
 					}
 					break;
 				}
