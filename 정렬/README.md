@@ -15,7 +15,10 @@ public class Person implements Comparable<Person> {
 
     @Override
     public int compareTo(Person p) {
+        // 사전 순으로 정렬
         return this.name.compareTo(p.getName());
+        // 사전 역순으로 정렬
+        // return -this.name.compareTo(p.getName());
     }
 }
 ```
