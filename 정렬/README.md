@@ -83,7 +83,7 @@ Java의 Arrays 클래스를 이용하여 숫자 배열을 정렬하는 예제를
          @Override
          public int compare(Integer o1, Integer o2) {
              return o2.compareTo(o1);
-             // return Integer.compare(o2, o1)
+             // return Integer.compare(o2, o1);
          }
      });
      ```
