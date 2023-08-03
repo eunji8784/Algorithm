@@ -118,3 +118,26 @@ Java의 Arrays 클래스를 이용하여 숫자 배열을 정렬하는 예제를
    이 경우, 이미 Comparator 클래스에서 제공하는 reverseOrder 메소드를 사용하여 내림차순 정렬을 수행했습니다.
 
 각 방법마다 코드의 길이와 복잡성이 다르므로, 상황에 따라 적합한 방법을 선택하면 됩니다.
+
+---
+
+# 💡 문자열 역순으로 뒤집기 (StringBuffer, StringBuilder)
+Java의 `StringBuffer`와 `StringBuilder` 클래스는 모두 문자열을 조작할 수 있는 다양한 메소드를 제공합니다. 그 중에서 `reverse` 메소드를 이용하면 문자열을 역순으로 뒤집을 수 있습니다.
+
+1. `StringBuffer`를 사용하는 경우:
+
+```java
+StringBuffer buffer = new StringBuffer("Hello World");
+buffer.reverse();
+System.out.println(buffer.toString());  // 결과: dlroW olleH
+```
+
+2. `StringBuilder`를 사용하는 경우:
+
+```java
+StringBuilder builder = new StringBuilder("Hello World");
+builder.reverse();
+System.out.println(builder.toString());  // 결과: dlroW olleH
+```
+
+두 코드 모두 동일한 결과를 출력합니다. `StringBuffer`와 `StringBuilder`의 주요 차이점은 `StringBuffer`가 thread-safe하다는 것이고, `StringBuilder`는 thread-safe하지 않지만 일반적으로 더 빠르다는 것입니다. 따라서, 멀티스레드 환경에서는 `StringBuffer`를, 단일 스레드 환경에서는 `StringBuilder`를 사용하는 것이 좋습니다.
