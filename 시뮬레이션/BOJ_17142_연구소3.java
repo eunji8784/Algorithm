@@ -99,9 +99,9 @@ public class Main {
 
 			if (time >= min) {
 				return time;
-			} else {
-				timeToVirusSpread = time;
-			}
+			} 
+			
+			timeToVirusSpread = time;
 			
 			if (blank == 0) {
 				continue;
