@@ -110,6 +110,7 @@ public class DFS_BFS_순조부 {
 		
 	}
 
+	// 조합
 	private static void combination(int index, int count) {
 
 		if (count == r) {
@@ -124,6 +125,22 @@ public class DFS_BFS_순조부 {
 
 	}
 
+	// 중복조합 
+	private static void combinationWithRepetition(int index, int count) {
+
+	    if (count == r) {
+	        System.out.println(Arrays.toString(selected));
+	        return;
+	    }
+	
+	    for (int i = index; i < n; i++) {
+	        selected[count] = arr[i];
+	        // 현재 원소를 다시 선택할 수 있도록, 다음 조합의 시작 인덱스를 i로 설정
+	        combination(i, count + 1);
+	    }
+	}
+
+	// 순열
 	private static void permutation(int depth) {
 
 		if (depth == r) {
@@ -140,6 +157,20 @@ public class DFS_BFS_순조부 {
 			}
 		}
 
+	}
+
+	// 중복순열
+	private static void permutationWithRepetition(int depth) {
+
+	    if (depth == r) {
+	        System.out.println(Arrays.toString(selected));
+	        return;
+	    }
+	
+	    for (int i = 0; i < n; i++) {
+	        selected[depth] = arr[i];
+	        permutationWithRepetition(depth + 1);
+	    }
 	}
 
 }
