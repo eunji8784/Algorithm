@@ -93,6 +93,7 @@ public class DFS_BFS_순조부 {
 		
 	}
 
+	// 부분집합
 	private static void subset(int index, int count) {
 		
 		if (index == n) {
