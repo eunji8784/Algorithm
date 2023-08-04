@@ -38,7 +38,7 @@ public class Main {
 
 		Arrays.sort(flowers);
 
-		solve();
+		solution();
 
 	}
 
@@ -67,7 +67,7 @@ public class Main {
 		
 	}
 
-	private static void solve() {
+	private static void solution() {
 
 		int startDay = 301;
 		int endDay = 1201;
