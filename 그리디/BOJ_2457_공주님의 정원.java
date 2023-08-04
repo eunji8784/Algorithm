@@ -10,10 +10,10 @@ import java.util.*;
 */
 
 public class Main {
-	
+
 	private static int n;
 	private static Flower[] flowers;
-	
+
 	private static class Flower implements Comparable<Flower> {
 		int start;
 		int end;
@@ -32,8 +32,18 @@ public class Main {
 		}
 	}
 
-	public static void main(String args[]) throws NumberFormatException, IOException {
+	public static void main(String args[]) throws IOException {
 
+		getInput();
+
+		Arrays.sort(flowers);
+
+		solve();
+
+	}
+
+	private static void getInput() throws IOException {
+		
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
 		n = Integer.parseInt(br.readLine());
@@ -52,25 +62,22 @@ public class Main {
 			int end = endMonth * 100 + endDay;
 			flowers[i] = new Flower(start, end);
 		}
-
-		Arrays.sort(flowers); 
-		
-		solve();
 		
 		br.close();
+		
 	}
 
 	private static void solve() {
-		
+
 		int startDay = 301;
 		int endDay = 1201;
 		int count = 0, max = 0, index = 0;
 
 		while (startDay < endDay) {
-			boolean isNewFlower = false; 
+			boolean isNewFlower = false;
 
 			for (int i = index; i < n; i++) {
-				if (flowers[i].start > startDay) { 
+				if (flowers[i].start > startDay) {
 					break;
 				}
 
@@ -88,9 +95,9 @@ public class Main {
 				break;
 			}
 		}
-		
+
 		System.out.println(max < endDay ? 0 : count);
-		
+
 	}
 
 }
