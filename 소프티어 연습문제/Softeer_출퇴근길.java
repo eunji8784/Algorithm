@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-// HSAT 6회 정기 코딩 인증평가 기출
+// HSAT 6회 정기 코딩 인증평가 기출 
 public class Main {
     private static ArrayList<Integer>[] forwardGraph, reverseGraph;
     private static int n, m, s, t;
