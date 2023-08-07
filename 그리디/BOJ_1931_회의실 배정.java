@@ -22,7 +22,7 @@ public class Main {
 				if (o1[1] == o2[1]) { // 끝나는 시간이 같다면 시작하는 시간 기준으로 오름차순 정렬
 					return Integer.compare(o1[0], o2[0]);
 				}
-				return Integer.compare(o1[1], o2[1]); // 시작하는 시간 기준으로 오름차순 정렬
+				return Integer.compare(o1[1], o2[1]); // 회의가 끝나는 시간 기준으로 오름차순 정렬
 			}
 		});
 
