@@ -30,7 +30,7 @@ public class Main {
 		int end = 0;
 
 		for (int i = 0; i < N; i++) {
-			if (arr[i][0] >= end) {
+			if (arr[i][0] >= end) { // 회의의 시작 시간이 이전 회의가 끝나는 시간 이후인지 확인
 				answer++;
 				end = arr[i][1];
 			}
