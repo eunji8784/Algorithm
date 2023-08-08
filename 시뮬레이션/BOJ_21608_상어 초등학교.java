@@ -7,113 +7,132 @@ public class Main {
 	private static final int[] DIRECTION_Y = { 0, 0, -1, 1 };
 
 	private static int N;
-	private static Map<Integer, Set<Integer>> map = new LinkedHashMap<>();
+	private static Map<Integer, Set<Integer>> preferenceMap = new LinkedHashMap<>();
 	private static int[][] seat;
 
 	private static class Position implements Comparable<Position> {
-		int x, y, like, blank;
+		int x, y, likedCount, emptyCount;
 
-		public Position(int x, int y, int like, int blank) {
+		public Position(int x, int y, int likedCount, int emptyCount) {
 			this.x = x;
 			this.y = y;
-			this.like = like;
-			this.blank = blank;
+			this.likedCount = likedCount;
+			this.emptyCount = emptyCount;
 		}
 
 		@Override
 		public int compareTo(Position p) {
-			if (this.like == p.like) {
-				if (this.blank == p.blank) {
+			if (this.likedCount == p.likedCount) {
+				if (this.emptyCount == p.emptyCount) {
 					if (this.x == p.x) {
 						return Integer.compare(this.y, p.y);
 					}
 					return Integer.compare(this.x, p.x);
 				}
-				return Integer.compare(p.blank, this.blank);
+				return Integer.compare(p.emptyCount, this.emptyCount);
 			}
-			return Integer.compare(p.like, this.like);
+			return Integer.compare(p.likedCount, this.likedCount);
 		}
 	}
 
 	public static void main(String[] args) throws IOException {
-
 		getInput();
-
-		for (int key : map.keySet()) {
-			findSeat(key, map.get(key));
-		}
-
-		int answer = 0;
-
-		for (int i = 0; i < N; i++) {
-			for (int j = 0; j < N; j++) {
-				answer += calAnswer(i, j);
-			}
-		}
-
-		System.out.println(answer);
+		assignSeats();
+		System.out.println(calculateSatisfaction());
 	}
 
-	private static void findSeat(int studentNum, Set<Integer> likeStudentsNum) {
+	private static void assignSeats() {
+		for (int key : preferenceMap.keySet()) {
+			findBestSeat(key, preferenceMap.get(key));
+		}
+	}
 
+	private static void findBestSeat(int studentNum, Set<Integer> likeStudentsNum) {
 		ArrayList<Position> lst = new ArrayList<>();
 
 		for (int i = 0; i < N; i++) {
 			for (int j = 0; j < N; j++) {
 
-				if (seat[i][j] != 0) continue;
+				if (isAlreadySeat(i, j)) {
+					continue;
+				}
 
-				int blank = 0, like = 0;
+				int emptyCount = 0, likedCount = 0;
 
 				for (int idx = 0; idx < 4; idx++) {
 					int nx = i + DIRECTION_X[idx];
 					int ny = j + DIRECTION_Y[idx];
 
-					if (nx < 0 || nx >= N || ny < 0 || ny >= N) {
+					if (!isInArea(nx, ny)) {
 						continue;
 					}
 
-					if (likeStudentsNum.contains(seat[nx][ny])) {
-						like++;
+					if (isLikeStudentExist(likeStudentsNum, nx, ny)) {
+						likedCount++;
 					}
 
-					if (seat[nx][ny] == 0) {
-						blank++;
+					if (isSeatEmpty(nx, ny)) {
+						emptyCount++;
 					}
 				}
 
-				lst.add(new Position(i, j, like, blank));
+				lst.add(new Position(i, j, likedCount, emptyCount));
 
 			}
 		}
 
 		Collections.sort(lst);
-
-		seat[lst.get(0).x][lst.get(0).y] = studentNum;
-
+		Position position = lst.get(0);
+		seat[position.x][position.y] = studentNum;
 	}
 
-	private static int calAnswer(int x, int y) {
+	private static int calculateSatisfaction() {
+		int totalSatisfaction = 0;
 
+		for (int i = 0; i < N; i++) {
+			for (int j = 0; j < N; j++) {
+				totalSatisfaction += getStudentSatisfaction(i, j);
+			}
+		}
+
+		return totalSatisfaction;
+	}
+
+	private static int getStudentSatisfaction(int x, int y) {
 		int count = 0;
 		int studentNum = seat[x][y];
-		Set<Integer> likeStudentsNum = map.get(studentNum);
+		Set<Integer> likeStudentsNum = preferenceMap.get(studentNum);
 
 		for (int idx = 0; idx < 4; idx++) {
 			int nx = x + DIRECTION_X[idx];
 			int ny = y + DIRECTION_Y[idx];
 
-			if (nx < 0 || nx >= N || ny < 0 || ny >= N) {
+			if (!isInArea(nx, ny)) {
 				continue;
 			}
 
-			if (likeStudentsNum.contains(seat[nx][ny])) {
+			if (isLikeStudentExist(likeStudentsNum, nx, ny)) {
 				count++;
 			}
 		}
 
 		return (count == 0 ? 0 : (int) Math.pow(10, count - 1));
+	}
 
+	private static boolean isAlreadySeat(int x, int y) {
+		return (seat[x][y] != 0);
+	}
+
+	private static boolean isLikeStudentExist(Set<Integer> set, int x, int y) {
+		return set.contains(seat[x][y]);
+	}
+
+	private static boolean isSeatEmpty(int x, int y) {
+		return (seat[x][y] == 0);
+	}
+
+	private static boolean isInArea(int x, int y) {
+		return (x >= 0 && x < N && y >= 0 && y < N);
 	}
 
 	private static void getInput() throws IOException {
@@ -131,8 +150,10 @@ public class Main {
 			for (int j = 0; j < 4; j++) {
 				set.add(Integer.parseInt(st.nextToken()));
 			}
-			map.put(key, set);
+			preferenceMap.put(key, set);
 		}
+
+		br.close();
 	}
 
 }
