@@ -10,19 +10,23 @@ public class Main {
 		int N = Integer.parseInt(st.nextToken());
 		int K = Integer.parseInt(st.nextToken());
 		
-		System.out.println(N == 0 || K == 0 ? 1 : solve(N, K));
+		System.out.println(solve(N, K));
+		
 		br.close();
 	}
 
 	private static int solve(int n, int k) {
-		return factorial(n, k) / factorial(n - k, 1);
+		int[][] dp = new int[n + 1][n + 1];
+		for (int i = 0; i <= n; i++) {
+			for (int j = 0; j <= i; j++) {
+				if (i == j || j == 0) {
+					dp[i][j] = 1;
+					continue;
+				}
+				dp[i][j] = dp[i - 1][j - 1] + dp[i - 1][j];
+			}
+		}
+		return dp[n][k];
 	}
 	
-	private static int factorial(int n, int k) {
-		if (n <= k) {
-			return 1;
-		}
-		return n * factorial(n - 1, k);
-	}
-
 }
