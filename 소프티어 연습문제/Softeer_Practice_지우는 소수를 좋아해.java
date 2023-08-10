@@ -6,7 +6,7 @@ public class Main
 {
     private static final int INF = 1000000000;
 
-    private static int N, M, minLevel = Integer.MAX_VALUE;
+    private static int N, M;
     private static ArrayList<Edge>[] adjLst;
     private static TreeSet<Integer> levels = new TreeSet<>();
 
