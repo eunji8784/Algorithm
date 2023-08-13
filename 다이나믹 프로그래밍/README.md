@@ -23,4 +23,4 @@
 5. **최종 해결**: 작은 하위 문제들의 해를 조합하여 주어진 문제의 해를 구함.
 ---
 ### 📚 문제 유형
-### [0-1 배낭 문제(Knapsack Problem)](0-1%Knapsack%Problem.md)
+### [0-1 배낭 문제(Knapsack Problem)](0-1%20Knapsack%20Problem.md)
