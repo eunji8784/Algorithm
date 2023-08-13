@@ -9,7 +9,6 @@ public class Main {
 	private static int N, M;
 	private static int[][] map;
 	private static Queue<Position> cheese;
-	private static boolean[][] outerCheck;
 
 	private static class Position {
 		int x, y;
@@ -37,37 +36,21 @@ public class Main {
 
 	private static void removeCheese() {
 		int length = cheese.size();
-		Queue<Position> cheeseToRemove = new LinkedList<>();
 
 		for (int i = 0; i < length; i++) {
 			Position cp = cheese.poll();
 
-			int count = 0;
-
-			for (int idx = 0; idx < 4; idx++) {
-				int nx = cp.x + DX[idx];
-				int ny = cp.y + DY[idx];
-
-				if (map[nx][ny] == 0 && outerCheck[nx][ny]) {
-					count++;
-				}
-			}
-
-			if (count < 2) {
-				cheese.offer(cp);
+			if (map[cp.x][cp.y] >= 3) {
+				map[cp.x][cp.y] = 0;
 			} else {
-				cheeseToRemove.offer(cp);
+				map[cp.x][cp.y] = 1;
+				cheese.offer(cp);
 			}
-		}
-
-		while (!cheeseToRemove.isEmpty()) {
-			Position p = cheeseToRemove.poll();
-			map[p.x][p.y] = 0;
 		}
 	}
 
 	private static void checkOuterAir() {
-		outerCheck = new boolean[N][M];
+		boolean[][] outerCheck = new boolean[N][M];
 		Queue<Position> que = new LinkedList<>();
 
 		que.offer(new Position(0, 0));
@@ -87,6 +70,10 @@ public class Main {
 				if (map[nx][ny] == 0 && !outerCheck[nx][ny]) {
 					que.offer(new Position(nx, ny));
 					outerCheck[nx][ny] = true;
+				}
+				
+				if (map[nx][ny] >= 1) {
+					map[nx][ny]++;
 				}
 			}
 		}
