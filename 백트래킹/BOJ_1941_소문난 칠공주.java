@@ -7,7 +7,6 @@ public class Main {
 	private static final int[] DY = { 0, 0, -1, 1 };
 
 	private static char[][] seat = new char[5][5];
-	private static int[][] seatNum = new int[5][5];
 	private static Integer[] selected = new Integer[7];
 	private static int answer = 0;
 
@@ -25,9 +24,6 @@ public class Main {
 
 		for (int i = 0; i < 5; i++) {
 			seat[i] = br.readLine().toCharArray();
-			for (int j = 0; j < 5; j++) {
-				seatNum[i][j] = i * 5 + j + 1;
-			}
 		}
 		
 		combination(0, 1);
@@ -72,7 +68,7 @@ public class Main {
 					continue;
 				}
 
-				if (set.contains(seatNum[nx][ny])) {
+				if (set.contains(nx * 5 + ny + 1)) {
 					que.offer(new Position(nx, ny));
 					vst[nx][ny] = true;
 					count++;
