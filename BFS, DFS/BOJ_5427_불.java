@@ -8,18 +8,8 @@ public class Main {
 
 	private static int w, h;
 	private static char[][] map;
-	private static Queue<Position> fireLocs, sanggeunLocs;
+	private static Queue<int[]> fireLocs, sanggeunLocs;
 	private static boolean[][] vst;
-
-	private static class Position {
-		int x, y, time;
-
-		public Position(int x, int y, int time) {
-			this.x = x;
-			this.y = y;
-			this.time = time;
-		}
-	}
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -36,15 +26,14 @@ public class Main {
 			sanggeunLocs = new LinkedList<>();
 
 			for (int i = 0; i < h; i++) {
-				String str = br.readLine();
-				map[i] = str.toCharArray();
+				map[i] = br.readLine().toCharArray();
 
 				for (int j = 0; j < w; j++) {
 					if (map[i][j] == '@') {
-						sanggeunLocs.offer(new Position(i ,j, 0));
+						sanggeunLocs.offer(new int[] { i, j, 0 });
 					}
 					if (map[i][j] == '*') {
-						fireLocs.offer(new Position(i, j, 0));
+						fireLocs.offer(new int[] { i, j });
 						vst[i][j] = true;
 					}
 				}
@@ -62,11 +51,11 @@ public class Main {
 			int length = fireLocs.size();
 
 			for (int l = 0; l < length; l++) {
-				Position current = fireLocs.poll();
+				int[] current = fireLocs.poll();
 
 				for (int i = 0; i < 4; i++) {
-					int nx = current.x + DX[i];
-					int ny = current.y + DY[i];
+					int nx = current[0] + DX[i];
+					int ny = current[1] + DY[i];
 
 					if (!isInArea(nx, ny) || map[nx][ny] == '*' || map[nx][ny] == '#') {
 						continue;
@@ -74,7 +63,7 @@ public class Main {
 
 					vst[nx][ny] = true;
 					map[nx][ny] = '*';
-					fireLocs.offer(new Position(nx, ny, 0));
+					fireLocs.offer(new int[] { nx, ny });
 				}
 			}
 
@@ -87,14 +76,14 @@ public class Main {
 			}
 
 			for (int l = 0; l < length; l++) {
-				Position current = sanggeunLocs.poll();
+				int[] current = sanggeunLocs.poll();
 
 				for (int i = 0; i < 4; i++) {
-					int nx = current.x + DX[i];
-					int ny = current.y + DY[i];
+					int nx = current[0] + DX[i];
+					int ny = current[1] + DY[i];
 
 					if (!isInArea(nx, ny)) {
-						System.out.println(current.time + 1);
+						System.out.println(current[2] + 1);
 						return;
 					}
 
@@ -103,7 +92,7 @@ public class Main {
 					}
 
 					vst[nx][ny] = true;
-					sanggeunLocs.offer(new Position(nx, ny, current.time + 1));
+					sanggeunLocs.offer(new int[] { nx, ny, current[2] + 1 });
 				}
 			}
 		}
