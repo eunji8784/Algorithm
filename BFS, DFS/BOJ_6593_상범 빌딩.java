@@ -7,7 +7,7 @@ public class Main {
 	private static final int[] DY = { 0, 0, -1, 1, 0, 0 };
 	private static final int[] DZ = { 0, 0, 0, 0, -1, 1 };
 	
-	private static int L, R, C, endX, endY, endZ;
+	private static int L, R, C;
 	private static char[][][] map;
 	
 	private static class Location {
