@@ -7,7 +7,7 @@ public class Main {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		
 		int N = Integer.parseInt(br.readLine());
-        if (N == 1) {
+        	if (N == 1) {
 			System.out.println(0);
 			System.exit(0);
 		}
