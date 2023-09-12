@@ -12,7 +12,7 @@ import java.util.StringTokenizer;
 public class DFS_BFS_순조부 {
 
 	static int n = 5;
-	static int r = 3;
+	static int r = 3; 
 	static int[] arr = { 1, 2, 3, 4, 5 };
 	static int[] selected;
 	static boolean[] visited;
