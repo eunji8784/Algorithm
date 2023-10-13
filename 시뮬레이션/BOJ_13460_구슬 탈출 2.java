@@ -25,12 +25,10 @@ public class Main {
 				if (board[i][j] == 'R') {
 					red[0] = i;
 					red[1] = j;
-					board[i][j] = '.';
 				}
 				if (board[i][j] == 'B') {
 					blue[0] = i;
 					blue[1] = j;
-					board[i][j] = '.';
 				}
 			}
 		}
