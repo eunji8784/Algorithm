@@ -1,5 +1,6 @@
 # 💡 최소 신장 트리(Minimum Spanning Tree, MST)
 - ```가중치```를 가진 ```무방향 그래프```에서 ```모든 노드를 연결```하면서 ```최소의 비용(가중치 합)```으로 그래프의 트리 구조를 만들고자 할 때 사용하는 알고리즘
+<img width="762" alt="스크린샷 2023-10-19 오후 6 27 18" src="https://github.com/eunji8784/Algorithm/assets/70746467/34269fa1-5c83-4f86-b578-ce5d64c2b43d">
 
 ### 📌 최소 신장 트리의 특징
 1. **모든 노드를 포함**: 최소 신장 트리는 원래 그래프의 모든 노드를 포함해야 합니다.
@@ -48,7 +49,7 @@ B-C: 4
 B-D: 2
 D-E: 5
 ```
-Kruskal's Algorithm 적용
+__Kruskal's Algorithm 적용__
 ```
 모든 간선을 가중치 순으로 정렬합니다: (A-B, B-D, A-C, B-C, D-E)
 (A-B) 선택.
@@ -57,4 +58,70 @@ Kruskal's Algorithm 적용
 (B-C)는 선택하지 않습니다. 왜냐하면 A-C-B 경로로 이미 연결되어 있기 때문에 이 간선을 추가하면 사이클이 형성됩니다.
 (D-E) 선택.
 최종 최소 신장 트리: 간선 (A-B), (B-D), (A-C), (D-E)와 노드 A, B, C, D, E로 구성됩니다.
+```
+
+## 📝 코드
+```java
+import java.util.*;
+
+class Edge implements Comparable<Edge> {
+    int src, dest, weight;
+
+    public Edge(int src, int dest, int weight) {
+        this.src = src;
+        this.dest = dest;
+        this.weight = weight;
+    }
+
+    @Override
+    public int compareTo(Edge compareEdge) {
+        return this.weight - compareEdge.weight;
+    }
+}
+
+public class KruskalMST {
+    int[] parent;
+    
+    int find(int x) {
+        if(parent[x] == x) return x;
+        return parent[x] = find(parent[x]);
+    }
+    
+    boolean union(int x, int y) {
+        x = find(x);
+        y = find(y);
+        if(x == y) return false; 
+        parent[y] = x;
+        return true;
+    }
+
+    void kruskalMST(List<Edge> edges, int V) {
+        Collections.sort(edges); 
+        parent = new int[V];
+        for (int i = 0; i < V; ++i)
+            parent[i] = i;
+
+        int mstWeight = 0;  
+        for (Edge edge : edges) {
+            if (union(edge.src, edge.dest)) { 
+                System.out.println(edge.src + " - " + edge.dest + " : " + edge.weight);
+                mstWeight += edge.weight;
+            }
+        }
+
+        System.out.println("Total MST weight: " + mstWeight);
+    }
+
+    public static void main(String[] args) {
+        List<Edge> edges = new ArrayList<Edge>();
+        edges.add(new Edge(0, 1, 10));
+        edges.add(new Edge(0, 2, 6));
+        edges.add(new Edge(0, 3, 5));
+        edges.add(new Edge(1, 3, 15));
+        edges.add(new Edge(2, 3, 4));
+
+        KruskalMST kruskalMST = new KruskalMST();
+        kruskalMST.kruskalMST(edges, 4); 
+    }
+}
 ```
