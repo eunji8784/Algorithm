@@ -6,19 +6,19 @@ public class Main {
 			{ 1, 0 }, { 1, -1 } };
 	private static final int[][] SharkDir = { { 0, 0 }, { -1, 0 }, { 0, -1 }, { 1, 0 }, { 0, 1 } };
 
-	private static int sharkX, sharkY, index = 0;
-	private static List<Integer>[][] map;
-	private static List<Integer>[][] move;
-	private static int[][] smell = new int[4][4];
-	private static int[][] sharkMove = new int[64][3];
+	private static int sharkX, sharkY, index;
+	private static int[][][] fishMap, fishMove;
+	private static int[][] smell;
+	private static int[][] sharkMove;
 	
 	private static class CopyFish {
-		int x, y, dir;
+		int x, y, dir, cnt;
 		
-		public CopyFish(int x, int y, int dir) {
+		public CopyFish(int x, int y, int dir, int cnt) {
 			this.x = x;
 			this.y = y;
 			this.dir = dir;
+			this.cnt = cnt;
 		}
 	}
 
@@ -28,20 +28,17 @@ public class Main {
 
 		int M = Integer.parseInt(st.nextToken());
 		int S = Integer.parseInt(st.nextToken());
-		map = new ArrayList[4][4];
+		fishMap = new int[4][4][9];
+		smell = new int[4][4];
+		sharkMove = new int[64][3];
 		
-		for (int i = 0; i < 4; i++) {
-			for (int j = 0; j < 4; j++) {
-				map[i][j] = new ArrayList<>();
-			}
-		}
 		
 		for (int i = 0; i < M; i++) {
 			st = new StringTokenizer(br.readLine());
 			int x = Integer.parseInt(st.nextToken());
 			int y = Integer.parseInt(st.nextToken());
 			int d = Integer.parseInt(st.nextToken());
-			map[x - 1][y - 1].add(d);
+			fishMap[x - 1][y - 1][d]++;
 		}
 		
 		st = new StringTokenizer(br.readLine());
@@ -49,6 +46,7 @@ public class Main {
 		sharkY = Integer.parseInt(st.nextToken()) - 1;
 		
 		// 상어 이동 방법 초기화
+		index = 0;
 		setSharkMove(0, new int[3]);
 		
 		for (int s = 1; s <= S; s++) {
@@ -60,14 +58,16 @@ public class Main {
 			sharkMove(s);
 			// 복제 마법 완료 
 			for (CopyFish c : copyList) {
-				map[c.x][c.y].add(c.dir);
+				fishMap[c.x][c.y][c.dir] += c.cnt;
 			}
 		}
 		
 		int answer = 0;
-		for (int i = 0; i < 4; i++) {
-			for (int j = 0; j < 4; j++) {
-				answer += map[i][j].size();
+		for (int x = 0; x < 4; x++) {
+			for (int y = 0; y < 4; y++) {
+				for (int d = 1; d <= 8; d++) {
+					answer += fishMap[x][y][d];
+				}
 			}
 		}
 		
@@ -77,12 +77,11 @@ public class Main {
 	
 	private static List<CopyFish> copy() {
 		List<CopyFish> copy = new ArrayList<>();
-		for (int i = 0; i < 4; i++) {
-			for (int j = 0; j < 4; j++) {
-				if (map[i][j].size() != 0) {
-					for (int dir : map[i][j]) {
-						copy.add(new CopyFish(i, j, dir));
-					}
+		for (int x = 0; x < 4; x++) {
+			for (int y = 0; y < 4; y++) {
+				for (int dir = 1; dir <= 8; dir++) {
+					int cnt = fishMap[x][y][dir];
+					if (cnt > 0) copy.add(new CopyFish(x, y, dir, cnt));
 				}
 			}
 		}
@@ -90,42 +89,38 @@ public class Main {
 	}
 	
 	private static void fishMove(int s) {
-		move = new ArrayList[4][4];
-		
-		for (int i = 0; i < 4; i++) {
-			for (int j = 0; j < 4; j++) {
-				move[i][j] = new ArrayList<>();
-			}
-		}
+		fishMove = new int[4][4][9];
 		
 		for (int x = 0; x < 4; x++) {
 			for (int y = 0; y < 4; y++) {
-				if (map[x][y].size() == 0) continue;
-				
-				for (int i = 0; i < map[x][y].size(); i++) {
-					int dir = map[x][y].get(i);
-					int moveX = x, moveY = y;
+				for (int d = 1; d <= 8; d++) {
+					if (fishMap[x][y][d] == 0) continue;
+					
+					int nx = x, ny = y, dir = d;
+					boolean possible = false;
 					
 					for (int cnt = 0; cnt < 8; cnt++) {
-						int nx = x + FishDir[dir][0];
-						int ny = y + FishDir[dir][1];
+						nx = x + FishDir[dir][0];
+						ny = y + FishDir[dir][1];
 						
 						if (!isIn(nx, ny) || (nx == sharkX && ny == sharkY) || (smell[nx][ny] > 0 && smell[nx][ny] >= s - 2)) {
 							dir = (dir == 1 ? 8 : dir - 1);
 							continue;
 						}
 						
-						moveX = nx;
-						moveY = ny;
+						possible = true;
 						break;
 					}
 					
-					move[moveX][moveY].add(dir);
+					if (possible) {
+						fishMove[nx][ny][dir] += fishMap[x][y][d];
+					} else {
+						fishMove[x][y][d] += fishMap[x][y][d];
+					}
 				}
 			}
 		}
-		
-		map = move;
+		fishMap = fishMove;
 	}
 	
 	private static void sharkMove(int s) {
@@ -149,7 +144,9 @@ public class Main {
 				}
 				
 				if (!vst[nx][ny]) {
-					fishCnt += map[nx][ny].size();
+					for (int d = 1; d <= 8; d++) {
+						fishCnt += fishMap[nx][ny][d];
+					}
 					vst[nx][ny] = true;
 				}
 			}
@@ -164,11 +161,16 @@ public class Main {
 		for (int dir : selected) {
 			sharkX += SharkDir[dir][0];
 			sharkY += SharkDir[dir][1];
+			boolean canFishEat = false;
 			
-			if (map[sharkX][sharkY].size() > 0) {
-				smell[sharkX][sharkY] = s;
-				map[sharkX][sharkY].clear();
+			for (int d = 1; d <= 8; d++) {
+				if (fishMap[sharkX][sharkY][d] > 0) {
+					canFishEat = true;
+					fishMap[sharkX][sharkY][d] = 0;
+				}
 			}
+			
+			if (canFishEat) smell[sharkX][sharkY] = s;
 		}
 	}
 
