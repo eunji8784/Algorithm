@@ -7,38 +7,36 @@ public class Main {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 		StringTokenizer st = new StringTokenizer(br.readLine());
-		
+
 		long N = Long.parseLong(st.nextToken());
-		long A = Long.parseLong(st.nextToken());
-		long B = Long.parseLong(st.nextToken());
-		long C = Long.parseLong(st.nextToken());
-		long D = Long.parseLong(st.nextToken());
-		
-		if (A < C) {
-			long tmp = A;
-			A = C;
-			C = tmp;
-			tmp = B;
-			B = D;
-			D = tmp;
+		long roseA = Long.parseLong(st.nextToken());
+		long priceA = Long.parseLong(st.nextToken());
+		long roseB = Long.parseLong(st.nextToken());
+		long priceB = Long.parseLong(st.nextToken());
+
+		if (roseA * priceB > priceA * roseB) {
+			long tmp = roseA;
+			roseA = roseB;
+			roseB = tmp;
+			tmp = priceA;
+			priceA = priceB;
+			priceB = tmp;
 		}
 		
-		long count = 0, min = Long.MAX_VALUE;
-        
-		while (true) {
-			if (A * count >= N) {
-				min = Math.min(min, B * count);
-				break;
+		long minCost = Long.MAX_VALUE;
+		
+		for (int a = 0; a < roseB; a++) {
+			long b = (long) Math.ceil((double)(N - a * roseA) / roseB);
+			boolean isOver = false;
+			if (b < 0) {
+				b = 0;
+				isOver = true;
 			}
-			long cost = B * count;
-			long remain = N - (A * count);
-			long num = remain % C == 0 ? remain / C : (remain / C) + 1;
-			cost += (num * D);
-			min = Math.min(min, cost);
-			count++;
+			minCost = Math.min(minCost, a * priceA + b * priceB);
+			if (isOver) break;
 		}
 		
-		bw.write(String.valueOf(min));
+		bw.write(String.valueOf(minCost));
 		bw.flush();
 		bw.close();
 		br.close();
