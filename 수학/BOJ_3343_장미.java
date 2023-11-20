@@ -13,8 +13,9 @@ public class Main {
 		long priceA = Long.parseLong(st.nextToken());
 		long roseB = Long.parseLong(st.nextToken());
 		long priceB = Long.parseLong(st.nextToken());
-
-		if (roseA * priceB > priceA * roseB) {
+		long gcd = lcm(roseA, roseB);
+		
+		if (gcd / roseA * priceA > gcd / roseB * priceB) {
 			long tmp = roseA;
 			roseA = roseB;
 			roseB = tmp;
@@ -25,20 +26,28 @@ public class Main {
 		
 		long minCost = Long.MAX_VALUE;
 		
-		for (int a = 0; a < roseB; a++) {
-			long b = (long) Math.ceil((double)(N - a * roseA) / roseB);
-			boolean isOver = false;
-			if (b < 0) {
-				b = 0;
-				isOver = true;
-			}
+		for (int b = 0; b < gcd / roseB; b++) {
+			long a = (long) Math.ceil((double)(N - (b * roseB)) / roseA);
+			if (a < 0) break;
 			minCost = Math.min(minCost, a * priceA + b * priceB);
-			if (isOver) break;
 		}
 		
 		bw.write(String.valueOf(minCost));
 		bw.flush();
 		bw.close();
 		br.close();
+	}
+
+	private static long lcm(long a, long b) {
+		return a * b / gcd(a, b);
+	}
+
+	private static long gcd(long a, long b) {
+		while (b > 0) {
+			long r = a % b;
+			a = b;
+			b = r;
+		}
+		return a;
 	}
 }
