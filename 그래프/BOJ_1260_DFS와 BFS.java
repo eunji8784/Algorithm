@@ -35,8 +35,8 @@ public class Main {
 		vst = new boolean[N + 1];
 		dfs(V);
 		sb.append("\n");
+		Arrays.fill(vst, false);
 		bfs(V);
-		vst = new boolean[N + 1];
 		
 		System.out.println(sb.toString());
 		br.close();
