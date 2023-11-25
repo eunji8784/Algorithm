@@ -47,7 +47,7 @@ public class Main {
 		}
 
 		UnionFind uf = new UnionFind(peopleCount);
-        int[] party = new int[partyCount + 1];
+       		int[] party = new int[partyCount + 1];
 		int firstKnown = Integer.parseInt(st.nextToken()); 
 		
 		for (int i = 0; i < knownCount - 1; i++) {
