@@ -4,7 +4,7 @@ import java.util.*;
 public class Main {
 	private static List<List<Integer>> graph;
 	private static boolean[] vst;
-	
+ 	
 	private static class Node {
 		int node, depth;
 		
@@ -35,23 +35,18 @@ public class Main {
 		}
 
 		int min = Integer.MAX_VALUE;
-		int answer = 0;
+		int answer = 0, total = 0;
 		vst = new boolean[n + 1];
-		int[] count = new int[n + 1];
 
 		for (int i = 1; i <= n; i++) {
-			bfs(i, count);
-			int sum = 0;
-			for (int c = 1; c <= n; c++) {
-				sum += count[c];
-			}
-
-			if (min > sum) {
-				min = sum;
+			total = bfs(i);
+			if (total < min) {
+				min = total;
 				answer = i;
 			}
-			Arrays.fill(vst, false);
-			Arrays.fill(count, 0);
+			if (i < n) {
+				Arrays.fill(vst, false);
+			}
 		}
 
 		bw.write(String.valueOf(answer));
@@ -60,14 +55,15 @@ public class Main {
 		br.close();
 	}
 
-	private static void bfs(int v, int[] count) {
+	private static int bfs(int v) {
+		int total = 0;
 		Queue<Node> que = new LinkedList<>();
 		que.offer(new Node(v, 0));
 		vst[v] = true;
 
 		while (!que.isEmpty()) {
 			Node cur = que.poll();
-			count[cur.node] = cur.depth;
+			total += cur.depth;
 			for (int next : graph.get(cur.node)) {
 				if (!vst[next]) {
 					vst[next] = true;
@@ -75,6 +71,8 @@ public class Main {
 				}
 			}
 		}
+		
+		return total;
 	}
 
 }
