@@ -1,10 +1,13 @@
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 
 public class Main {
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
 		String str1 = br.readLine();
 		String str2 = br.readLine();
@@ -24,7 +27,26 @@ public class Main {
 			}
 		}
 
-		System.out.println(dp[length1][length2]);
+		StringBuilder lcs = new StringBuilder();
+		int i = length1, j = length2;
+		
+		while (i > 0 && j > 0) {
+			if (dp[i][j] == dp[i - 1][j]) {
+				i--;
+			} else if (dp[i][j] == dp[i][j - 1]) {
+				j--;
+			} else {
+				lcs.insert(0, str1.charAt(i - 1));
+				i--;
+				j--;
+			}
+		}
+
+		int length = dp[length1][length2];
+
+		bw.write(length + (length == 0 ? "" : "\n" + lcs.toString()));
+		bw.flush();
+		bw.close();
 		br.close();
 	}
 }
