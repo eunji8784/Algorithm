@@ -45,7 +45,7 @@ public class Main {
 					.forEach(set::add);
 			// 오른쪽 아래 대각선의 합 구하기
 			set.add(IntStream.range(0, n).map(i -> magicSquare[i][i]).sum());
-			// 오른쪽 아래 대각선의 합 구하기
+			// 왼쪽 아래 대각선의 합 구하기
 			set.add(IntStream.range(0, n).map(i -> magicSquare[i][n - i - 1]).sum());
 			if (set.size() != 1 || !set.contains(sum)) {
 				answer = false;
