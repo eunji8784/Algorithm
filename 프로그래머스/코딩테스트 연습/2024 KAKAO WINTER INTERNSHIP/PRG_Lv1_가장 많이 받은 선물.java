@@ -3,8 +3,6 @@ import java.util.*;
 
 class Solution {
     public int solution(String[] friends, String[] gifts) {
-        int answer = 0;
-        
         // friend들의 index 저장
         Map<String, Integer> map = new HashMap<>();
         int index = 0;
@@ -33,16 +31,12 @@ class Solution {
         }
         
         // 결과 계산
+        int answer = 0;
         for (int i = 0; i < n; i++) {
             int count = 0;
             for (int j = 0; j < n; j++) {
-                if (i == j) continue;
-                if (giveAndTake[i][j] > giveAndTake[j][i])  { // 준 선물이 더 많은 경우
+                if (i != j && (giveAndTake[i][j] > giveAndTake[j][i]) || (giveAndTake[i][j] == giveAndTake[j][i] && degree[i] > degree[j]))  { 
                     count++;
-                } else if (giveAndTake[i][j] == giveAndTake[j][i]) { // 주고 받은 선물 개수가 같은 경우
-                    if (degree[i] > degree[j]) {
-                        count++;
-                    }
                 }
             }
             answer = Math.max(answer, count);
