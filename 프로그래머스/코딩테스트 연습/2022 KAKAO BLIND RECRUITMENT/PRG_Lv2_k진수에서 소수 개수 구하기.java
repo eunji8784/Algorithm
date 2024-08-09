@@ -9,9 +9,7 @@ class Solution {
         for (String tmp : arr) {
             if (tmp.isBlank()) continue;
             
-            long num = Long.parseLong(tmp);
-            
-            if (isPrime(num)) {
+            if (isPrime(Long.parseLong(tmp))) {
                 answer++;
             }
         }
